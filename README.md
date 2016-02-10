@@ -13,8 +13,8 @@ With blaz you can create docker images with all the dependencies of your script 
 [dinghy](https://github.com/codekitchen/dinghy) works out of the box.
 
 ### Quick start
-```
-# blaz is not yet in pypi registry.
+```sh
+# blaz is not yet in pypi registry
 pip3 install .
 # Docker image with python3 and blaz
 docker build -t alpine-blaz .
