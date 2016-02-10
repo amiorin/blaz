@@ -21,6 +21,7 @@ docker build -t alpine-blaz .
 # blaz script example
 ./run
 ```
+![screenshot](https://raw.githubusercontent.com/amiorin/blaz/master/blaz.png)
 
 ## Environment variables
 These are the defaults that you can override
