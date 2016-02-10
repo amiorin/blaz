@@ -52,6 +52,7 @@ A blaz script can invoke another blaz script. A new docker container will be use
 
 ### Build docker images
 You can split compile and build. For example you can create a script that
+
 1. compile your go source code with alpine + blaz + go (220 MB)
 2. build alpine docker with the static go executable (5 MB + your go program)
 3. push to the docker container registry
