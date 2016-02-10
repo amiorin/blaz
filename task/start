@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+
+from blaz import Blaz
+from sys import argv
+
+
+def task(blaz):
+    blaz.log()
+    blaz.log('Inside ./task/start, argv is:')
+    blaz.log(' '.join(argv))
+    blaz.log()
+    blaz.log('The current directory is')
+    blaz.run('pwd')
+    blaz.log()
+    blaz.log('The environment variables are:')
+    blaz.run('env')
+
+if __name__ == "__main__":
+    Blaz().invoke(task)

@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+from blaz import Blaz
+from sys import argv
+from os import environ
+
+
+def task(blaz):
+    blaz.log()
+    blaz.log('Inside ./run, argv is:')
+    blaz.log(' '.join(argv))
+    blaz.log()
+    blaz.log('The current directory is:')
+    blaz.run('pwd')
+    blaz.log()
+    blaz.log('The environment variables are:')
+    blaz.run('env')
+    blaz.log()
+    blaz.log('Invoking task/start')
+    environ['_BLAZ_SECRET2'] = 'secret_password_not_echoed_but_fowarded'
+    blaz.run('task/start foo bar baz')
+
+if __name__ == "__main__":
+    Blaz().invoke(task)
