@@ -28,7 +28,7 @@ class Blaz(object):
         self.lock = m.hexdigest()
 
     def _fresh(self):
-        if 'BLAZ_LOCK'.format(self) in environ:
+        if 'BLAZ_LOCK' in environ:
             return environ['BLAZ_LOCK'] == self.lock
         else:
             return False
@@ -52,6 +52,8 @@ class Blaz(object):
                 break
         self.log(cmd, fg=fg)
         check_call(cmd, shell=True)
+        sys.stdout.flush()
+        sys.stderr.flush()
 
     def _forward_blaz_env_vars(self):
         result = []
