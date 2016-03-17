@@ -14,10 +14,9 @@ With blaz you can create docker images with all the dependencies of your script 
 
 ### Quick start
 ```sh
+git clone https://github.com/amiorin/blaz
+cd blaz
 pip3 install blaz
-# Docker image with python3 and blaz
-docker build -t alpine-blaz .
-# blaz script example
 ./run
 ```
 ![screenshot](https://raw.githubusercontent.com/amiorin/blaz/master/blaz.png)
@@ -71,4 +70,15 @@ def task(blaz):
 if __name__ == "__main__":
     # the task function will be invoke in a fresh container
     Blaz().invoke(task)
+```
+
+## Publish
+
+```
+python setup.py sdist
+twine upload dist/*
+docker build --no-cache -t amiorin/alpine-blaz .
+docker push amiorin/alpine-blaz
+docker tag ...
+docker push ...
 ```

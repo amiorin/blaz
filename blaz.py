@@ -15,7 +15,7 @@ class Blaz(object):
         self.argv = ' '.join(argv[1:])
         self.__dict__.update({
             'dir': dirname(self.file),
-            'image': getenv('BLAZ_IMAGE', 'alpine-blaz'),
+            'image': getenv('BLAZ_IMAGE', 'amiorin/alpine-blaz'),
             'docker_exe': getenv('DOCKER_EXE', '/usr/local/bin/docker'),
             'docker_sock': getenv('DOCKER_SOCK', '/var/run/docker.sock')
         })
