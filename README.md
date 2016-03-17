@@ -14,8 +14,7 @@ With blaz you can create docker images with all the dependencies of your script 
 
 ### Quick start
 ```sh
-# blaz is not yet in pypi registry
-pip3 install .
+pip3 install blaz
 # Docker image with python3 and blaz
 docker build -t alpine-blaz .
 # blaz script example
