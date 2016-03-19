@@ -30,7 +30,7 @@ DOCKER_EXE=/usr/local/bin/docker
 DOCKER_EXE=/usr/bin/docker
 DOCKER_SOCK=/var/run/docker.sock
 # docker image to start your script
-BLAZ_IMAGE=alpine-blaz
+BLAZ_IMAGE=amiorin/alpine-blaz
 ```
 
 All environment variables like ``BLAZ_*`` and ``_BLAZ_*`` are forwarded to the next container. The former are printed the latter are not (useful for secrets like AWS credentials inside jenkins).
