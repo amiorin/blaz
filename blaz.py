@@ -70,7 +70,7 @@ class Blaz(object):
 
     def _docker_run(self):
         cmd = '''
-docker run
+{0.docker_exe} run
   --rm
   --privileged
   --net=host
