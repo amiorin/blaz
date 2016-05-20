@@ -24,6 +24,7 @@ pip3 install blaz
 ## Environment variables
 These are the defaults that you can override
 ```sh
+# DOCKER_EXE is now optional
 # docker-machine
 DOCKER_EXE=/usr/local/bin/docker
 # docker installed with the debian package

@@ -1,3 +1,4 @@
+from distutils.spawn import find_executable
 from os import environ, chdir, getenv
 from os.path import abspath, basename, dirname
 from subprocess import check_call
@@ -17,13 +18,19 @@ class Blaz(object):
         self.__dict__.update({
             'dir': dirname(self.file),
             'image': getenv('BLAZ_IMAGE', 'amiorin/alpine-blaz'),
-            'docker_exe': getenv('DOCKER_EXE', '/usr/local/bin/docker'),
+            'docker_exe': self._find_docker_exe(),
             'docker_sock': getenv('DOCKER_SOCK', '/var/run/docker.sock'),
             'docker_options': getenv('DOCKER_OPTIONS', '--rm --privileged --net=host'),
             'version': __version__
         })
         chdir(self.dir)
         self._create_lock()
+
+    def _find_docker_exe(self):
+        if 'DOCKER_EXE' not in environ:
+            return find_executable('docker')
+        else:
+            return environ['DOCKER_EXE']
 
     def _create_lock(self):
         m = md5()
