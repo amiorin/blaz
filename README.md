@@ -29,11 +29,15 @@ DOCKER_EXE=/usr/local/bin/docker
 # docker installed with the debian package
 DOCKER_EXE=/usr/bin/docker
 DOCKER_SOCK=/var/run/docker.sock
+DOCKER_OPTIONS="--rm --privileged --net=host"
 # docker image to start your script
 BLAZ_IMAGE=amiorin/alpine-blaz
 ```
 
 All environment variables like ``BLAZ_*`` and ``_BLAZ_*`` are forwarded to the next container. The former are printed the latter are not (useful for secrets like AWS credentials inside jenkins).
+
+## Reserved env variables
+``BLAZ_LOCK`` and ``BLAZ_VERSION`` are reserved for internal use.
 
 ## Nested scripts
 A blaz script can invoke another blaz script. A new docker container will be used for the nested script.
@@ -81,4 +85,11 @@ docker build --no-cache -t amiorin/alpine-blaz .
 docker push amiorin/alpine-blaz
 docker tag ...
 docker push ...
+```
+
+## Development
+* Install pyenv
+
+```
+pip install -e .
 ```

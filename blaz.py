@@ -4,6 +4,7 @@ from subprocess import check_call
 from sys import argv
 from colors import bold
 from hashlib import md5
+from version import __version__
 import sys
 
 
@@ -17,7 +18,9 @@ class Blaz(object):
             'dir': dirname(self.file),
             'image': getenv('BLAZ_IMAGE', 'amiorin/alpine-blaz'),
             'docker_exe': getenv('DOCKER_EXE', '/usr/local/bin/docker'),
-            'docker_sock': getenv('DOCKER_SOCK', '/var/run/docker.sock')
+            'docker_sock': getenv('DOCKER_SOCK', '/var/run/docker.sock'),
+            'docker_options': getenv('DOCKER_OPTIONS', '--rm --privileged --net=host'),
+            'version': __version__
         })
         chdir(self.dir)
         self._create_lock()
@@ -58,7 +61,7 @@ class Blaz(object):
     def _forward_blaz_env_vars(self):
         result = []
         for k in environ.keys():
-            if k.find('BLAZ_') == 0:
+            if k.find('BLAZ_') == 0 and k != 'BLAZ_LOCK' and k != 'BLAZ_VERSION':
                 result.append('''
   --env={}={}
 '''.format(k, environ[k]))
@@ -71,15 +74,14 @@ class Blaz(object):
     def _docker_run(self):
         cmd = '''
 {0.docker_exe} run
-  --rm
-  --privileged
-  --net=host
+  {0.docker_options}
 '''
         cmd = cmd + self._forward_blaz_env_vars()
         cmd = cmd + '''
   --env=DOCKER_EXE={0.docker_exe}
   --env=DOCKER_SOCK={0.docker_sock}
   --env=BLAZ_LOCK={0.lock}
+  --env=BLAZ_VERSION={0.version}
   --volume={0.dir}:{0.dir}
   --volume={0.docker_exe}:{0.docker_exe}
   --volume={0.docker_sock}:{0.docker_sock}
