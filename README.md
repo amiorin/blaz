@@ -33,12 +33,14 @@ DOCKER_SOCK=/var/run/docker.sock
 DOCKER_OPTIONS="--rm --privileged --net=host"
 # docker image to start your script
 BLAZ_IMAGE=amiorin/alpine-blaz
+# to change the mount point with a relative path starting from the directory containing the script
+BLAZ_CHDIR_REL=../..
 ```
 
 All environment variables like ``BLAZ_*`` and ``_BLAZ_*`` are forwarded to the next container. The former are printed the latter are not (useful for secrets like AWS credentials inside jenkins).
 
 ## Reserved env variables
-``BLAZ_LOCK`` and ``BLAZ_VERSION`` are reserved for internal use.
+``BLAZ_LOCK`` and ``BLAZ_VERSION`` and ``BLAZ_CHDIR_REL`` are reserved for internal use.
 
 ## Nested scripts
 A blaz script can invoke another blaz script. A new docker container will be used for the nested script.

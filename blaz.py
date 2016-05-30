@@ -1,6 +1,6 @@
 from distutils.spawn import find_executable
 from os import environ, chdir, getenv
-from os.path import abspath, basename, dirname
+from os.path import abspath, basename, dirname, join as join_dir
 from subprocess import check_call
 from sys import argv
 from colors import bold
@@ -24,6 +24,10 @@ class Blaz(object):
             'version': __version__
         })
         chdir(self.dir)
+        if 'BLAZ_CHDIR_REL' in environ:
+            self.mount_dir = abspath(join_dir(self.dir, environ['BLAZ_CHDIR_REL']))
+        else:
+            self.mount_dir = self.dir
         self._create_lock()
 
     def _find_docker_exe(self):
@@ -68,7 +72,7 @@ class Blaz(object):
     def _forward_blaz_env_vars(self):
         result = []
         for k in environ.keys():
-            if k.find('BLAZ_') == 0 and k != 'BLAZ_LOCK' and k != 'BLAZ_VERSION':
+            if k.find('BLAZ_') == 0 and k != 'BLAZ_LOCK' and k != 'BLAZ_VERSION' and k != 'BLAZ_CHDIR':
                 result.append('''
   --env={}={}
 '''.format(k, environ[k]))
@@ -89,7 +93,7 @@ class Blaz(object):
   --env=DOCKER_SOCK={0.docker_sock}
   --env=BLAZ_LOCK={0.lock}
   --env=BLAZ_VERSION={0.version}
-  --volume={0.dir}:{0.dir}
+  --volume={0.mount_dir}:{0.mount_dir}
   --volume={0.docker_exe}:{0.docker_exe}
   --volume={0.docker_sock}:{0.docker_sock}
   {0.image}
