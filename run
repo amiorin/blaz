@@ -21,4 +21,5 @@ def task(blaz):
     blaz.run('task/start foo bar baz')
 
 if __name__ == "__main__":
+    environ['BLAZ_CHDIR_REL'] = '..'
     Blaz().invoke(task)
