@@ -35,12 +35,21 @@ DOCKER_OPTIONS="--rm --privileged --net=host"
 BLAZ_IMAGE=amiorin/alpine-blaz
 # to change the mount point with a relative path starting from the directory containing the script
 BLAZ_CHDIR_REL=../..
+# to skip the docker run step
+BLAZ_SKIP=1
 ```
 
 All environment variables like ``BLAZ_*`` and ``_BLAZ_*`` are forwarded to the next container. The former are printed the latter are not (useful for secrets like AWS credentials inside jenkins).
 
 ## Reserved env variables
-``BLAZ_LOCK`` and ``BLAZ_VERSION`` and ``BLAZ_CHDIR_REL`` are reserved for internal use.
+``BLAZ_LOCK``, ``BLAZ_VERSION``, ``BLAZ_SKIP`` and ``BLAZ_CHDIR_REL`` are reserved.
+
+Env var | Explanation
+---|---
+BLAZ_LOCK | It's the digest of the fullpath of the script and it's used to understand if we need to start a new ``docker run``
+BLAZ_VERSION | For debugging purpose, it's the blaz version inside the container
+BLAZ_SKIP | When you want to compose to blaz script but you don't want to start two different containers
+BLAZ_CHDIR_REL | When the script has to access to files that are not under his directory but somewhere else. It allows mount a volume that is different from the directory of the current script using a relative path like ``../..``
 
 ## Nested scripts
 A blaz script can invoke another blaz script. A new docker container will be used for the nested script.

@@ -6,7 +6,7 @@ from sys import argv
 
 def task(blaz):
     blaz.log()
-    blaz.log('Inside ./task/start, argv is:')
+    blaz.log('Inside ./task/start_with_skip, argv is:')
     blaz.log(' '.join(argv))
     blaz.log()
     blaz.log('The current directory is')
@@ -14,7 +14,6 @@ def task(blaz):
     blaz.log()
     blaz.log('The environment variables are:')
     blaz.run('env')
-    blaz.run('BLAZ_SKIP=1 ./start_with_skip one two three')
 
 if __name__ == "__main__":
     Blaz().invoke(task)
