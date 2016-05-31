@@ -50,6 +50,9 @@ BLAZ_LOCK | It's the digest of the fullpath of the script and it's used to under
 BLAZ_VERSION | For debugging purpose, it's the blaz version inside the container
 BLAZ_SKIP | When you want to compose two blaz scripts but you don't want to start two different containers
 BLAZ_CHDIR_REL | When the script has to access to files that are not under his directory but somewhere else. It allows mount a volume that is different from the directory of the current script using a relative path like ``../..``
+DOCKER_OPTIONS | To override ``--rm --privileged --net=host``
+DOCKER_EXE | To specify a the docker executable when you have multiple versions
+DOCKER_SOCK | To override the ``var/run/docker.sock``
 
 ## Nested scripts
 A blaz script can invoke another blaz script. A new docker container will be used for the nested script, unless you define the environment variable ``BLAZ_SKIP``.
