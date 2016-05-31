@@ -55,6 +55,9 @@ class Blaz(object):
         else:
             self._docker_run()
 
+    def cd_mount_dir(self):
+        chdir(self.mount_dir)
+
     def log(self, msg='', fg='yellow'):
         sys.stdout.flush()
         sys.stderr.write(bold(msg + '\n', fg=fg))
