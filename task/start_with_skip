@@ -14,7 +14,7 @@ def task(blaz):
     blaz.log()
     blaz.log('The environment variables are:')
     blaz.run('env')
-    blaz.cd_mount_dir()
+    blaz.cd()
     blaz.run('pwd')
 
 if __name__ == "__main__":
