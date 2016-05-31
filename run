@@ -18,7 +18,8 @@ def task(blaz):
     blaz.log()
     blaz.log('Invoking task/start')
     environ['_BLAZ_SECRET2'] = 'secret_password_not_echoed_but_fowarded'
-    blaz.run('task/start foo bar baz')
+    blaz.cd('blaz/task')
+    blaz.run('./start foo bar baz')
 
 if __name__ == "__main__":
     environ['BLAZ_CHDIR_REL'] = '..'
