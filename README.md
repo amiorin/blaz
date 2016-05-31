@@ -52,7 +52,7 @@ BLAZ_SKIP | When you want to compose two blaz scripts but you don't want to star
 BLAZ_CHDIR_REL | When the script has to access to files that are not under his directory but somewhere else. It allows mount a volume that is different from the directory of the current script using a relative path like ``../..``
 
 ## Nested scripts
-A blaz script can invoke another blaz script. A new docker container will be used for the nested script.
+A blaz script can invoke another blaz script. A new docker container will be used for the nested script, unless you define the environment variable ``BLAZ_SKIP``.
 
 ## Blaz api
 * blaz.invoke
