@@ -48,7 +48,9 @@ class Blaz(object):
             return False
 
     def invoke(self, main):
-        if self._fresh():
+        if self._fresh() or 'BLAZ_SKIP' in environ:
+            if 'BLAZ_SKIP' in environ:
+                del environ['BLAZ_SKIP']
             main(self)
         else:
             self._docker_run()
@@ -72,7 +74,7 @@ class Blaz(object):
     def _forward_blaz_env_vars(self):
         result = []
         for k in environ.keys():
-            if k.find('BLAZ_') == 0 and k != 'BLAZ_LOCK' and k != 'BLAZ_VERSION' and k != 'BLAZ_CHDIR':
+            if k.find('BLAZ_') == 0 and k != 'BLAZ_LOCK' and k != 'BLAZ_VERSION' and k != 'BLAZ_CHDIR' and k != 'BLAZ_SKIP':
                 result.append('''
   --env={}={}
 '''.format(k, environ[k]))
