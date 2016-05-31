@@ -48,7 +48,7 @@ Env var | Explanation
 ---|---
 BLAZ_LOCK | It's the digest of the fullpath of the script and it's used to understand if we need to start a new ``docker run``
 BLAZ_VERSION | For debugging purpose, it's the blaz version inside the container
-BLAZ_SKIP | When you want to compose to blaz script but you don't want to start two different containers
+BLAZ_SKIP | When you want to compose two blaz scripts but you don't want to start two different containers
 BLAZ_CHDIR_REL | When the script has to access to files that are not under his directory but somewhere else. It allows mount a volume that is different from the directory of the current script using a relative path like ``../..``
 
 ## Nested scripts
