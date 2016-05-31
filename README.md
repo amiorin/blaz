@@ -61,6 +61,7 @@ A blaz script can invoke another blaz script. A new docker container will be use
 * blaz.invoke
 * blaz.run
 * blaz.log
+* blaz.cd_mount_dir
 
 ## Use cases
 * jenkins
@@ -85,6 +86,8 @@ def task(blaz):
     blaz.run('PYTHONUNBUFFERED=1 ansible site.yml')
     # this will start a fresh container, after ansible is done
     blaz.run('../other_blaz_script.py')
+    # if you specify BLAZ_CHDIR_REL, you can go to the root of your project with cd_mount_dir
+    blaz.cd_mount_dir
 
 if __name__ == "__main__":
     # the task function will be invoke in a fresh container
@@ -94,6 +97,7 @@ if __name__ == "__main__":
 ## Publish
 
 ```
+rm -rf dist
 python setup.py sdist
 twine upload dist/*
 docker build --no-cache -t amiorin/alpine-blaz .
