@@ -63,6 +63,9 @@ A blaz script can invoke another blaz script. A new docker container will be use
 * blaz.log
 * blaz.cd
 
+## Pull
+Blaz always pulls the docker image. This allows you to use latest in your jenkins script and improve your image without making new commits to your project.
+
 ## Use cases
 * jenkins
 * ansible

@@ -53,6 +53,7 @@ class Blaz(object):
                 del environ['BLAZ_SKIP']
             main(self)
         else:
+            self.run("docker pull {0.image}")
             self._docker_run()
 
     def cd(self, subdir="."):
