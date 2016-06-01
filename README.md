@@ -7,7 +7,7 @@ With blaz you can create docker images with all the dependencies of your script 
 ## Requirements
 * docker-machine (dinghy works out of the box) or a **static** version of docker
 * **nfs** (better) or vboxsf (you could have stale scripts) in OSX
-* a **docker image** with python3 and blaz
+* a **docker image** with python2/3 and blaz
 
 ### docker-machine
 [dinghy](https://github.com/codekitchen/dinghy) works out of the box.
@@ -78,6 +78,7 @@ You can split compile and build. For example you can create a script that
 ### Ansible
 ```python
 #!/usr/bin/env python3
+# or !/usr/bin/env python2
 
 from blaz import Blaz
 

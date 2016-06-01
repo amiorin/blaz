@@ -38,7 +38,7 @@ class Blaz(object):
 
     def _create_lock(self):
         m = md5()
-        m.update(bytes('{0.dir}/{0.script} {0.argv}'.format(self), 'utf-8'))
+        m.update(bytearray('{0.dir}/{0.script} {0.argv}'.format(self), 'utf-8'))
         self.lock = m.hexdigest()
 
     def _fresh(self):
