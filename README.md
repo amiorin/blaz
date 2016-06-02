@@ -53,6 +53,7 @@ BLAZ_CHDIR_REL | When the script has to access to files that are not under his d
 DOCKER_OPTIONS | To override ``--rm --privileged --net=host``
 DOCKER_EXE | To specify a the docker executable when you have multiple versions
 DOCKER_SOCK | To override the ``var/run/docker.sock``
+DOCKER_IMMUTABLE | Blaz does ``docker pull``, but Zalando has a private docker registry that is immutable. If you define this environment variable, Blaz will try to download the next version until it doesn't find a new version (0.0.1 -> 0.0.2 ...)
 
 ## Nested scripts
 A blaz script can invoke another blaz script. A new docker container will be used for the nested script, unless you define the environment variable ``BLAZ_SKIP``.
@@ -116,4 +117,5 @@ docker push ...
 
 ```
 pip install -e .
+nodemon -e py -x nosetests --with-specplugin blaz_test.py
 ```

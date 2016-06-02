@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
 from blaz import Blaz
 from sys import argv
@@ -22,5 +22,7 @@ def task(blaz):
     blaz.run('./start foo bar baz')
 
 if __name__ == "__main__":
+    environ['DOCKER_IMMUTABLE'] = ''
+    environ['BLAZ_IMAGE'] = 'amiorin/alpine-blaz:0.0.15'
     environ['BLAZ_CHDIR_REL'] = '..'
     Blaz().invoke(task)

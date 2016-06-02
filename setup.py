@@ -11,5 +11,8 @@ setup(name='blaz',
       url='https://github.com/amiorin/blaz',
       license='MIT',
       py_modules=['blaz', 'version'],
-      install_requires=['ansicolors'],
+      install_requires=[
+        'ansicolors',
+        'semantic_version'
+        ],
       )
