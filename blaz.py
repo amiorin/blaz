@@ -10,7 +10,7 @@ import semantic_version
 import sys
 
 try:
-    from subprocess import DEVNULL # py3k
+    from subprocess import DEVNULL  # py3k
 except ImportError:
     import os
     DEVNULL = open(os.devnull, 'wb')
@@ -50,7 +50,7 @@ class Blaz(object):
         next_image = self._next_docker_image_version(image)
         try:
             check_call(['docker', 'pull', next_image], stdout=DEVNULL, stderr=DEVNULL)
-        except CalledProcessError as e:
+        except CalledProcessError:
             return image
         else:
             return self._do_find_latest_docker_image(next_image)
@@ -72,6 +72,12 @@ class Blaz(object):
         m.update(bytearray('{0.dir}/{0.script} {0.argv}'.format(self), 'utf-8'))
         self.lock = m.hexdigest()
 
+    def before(self):
+        return not self._fresh()
+
+    def after(self):
+        return self._fresh()
+
     def _fresh(self):
         if 'BLAZ_LOCK' in environ:
             return environ['BLAZ_LOCK'] == self.lock
@@ -87,7 +93,8 @@ class Blaz(object):
             main(self)
         else:
             if 'DOCKER_IMMUTABLE' not in environ:
-                check_call("docker pull {0.image}".format(self), shell=True)
+                if 'BLAZ_DONT_PULL' not in environ:
+                    check_call(['docker', 'pull', "{0.image}".format(self)], stdout=DEVNULL, stderr=DEVNULL)
             else:
                 self._find_latest_docker_image()
             self._docker_run()
@@ -114,7 +121,7 @@ class Blaz(object):
     def _forward_blaz_env_vars(self):
         result = []
         for k in environ.keys():
-            if k.find('BLAZ_') == 0 and k != 'BLAZ_LOCK' and k != 'BLAZ_VERSION' and k != 'BLAZ_CHDIR' and k != 'BLAZ_SKIP':
+            if k.find('BLAZ_') == 0 and k != 'BLAZ_LOCK' and k != 'BLAZ_VERSION' and k != 'BLAZ_CHDIR_REL' and k != 'BLAZ_SKIP':
                 result.append('''
   --env={}={}
 '''.format(k, environ[k]))

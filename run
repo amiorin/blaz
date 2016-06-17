@@ -23,6 +23,12 @@ def task(blaz):
 
 if __name__ == "__main__":
     environ['DOCKER_IMMUTABLE'] = ''
-    environ['BLAZ_IMAGE'] = 'amiorin/alpine-blaz:0.0.15'
+    environ['BLAZ_IMAGE'] = 'amiorin/alpine-blaz:0.0.17'
     environ['BLAZ_CHDIR_REL'] = '..'
-    Blaz().invoke(task)
+    environ['BLAZ_DONT_PULL'] = ''
+    b = Blaz()
+    if b.before():
+        b.log("before")
+    if b.after():
+        b.log("after")
+    b.invoke(task)

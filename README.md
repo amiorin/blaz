@@ -42,7 +42,7 @@ BLAZ_SKIP=1
 All environment variables like ``BLAZ_*`` and ``_BLAZ_*`` are forwarded to the next container. The former are printed the latter are not (useful for secrets like AWS credentials inside jenkins).
 
 ## Reserved env variables
-``BLAZ_LOCK``, ``BLAZ_VERSION``, ``BLAZ_SKIP`` and ``BLAZ_CHDIR_REL`` are reserved.
+``BLAZ_LOCK``, ``BLAZ_VERSION``, ``BLAZ_SKIP``, ``BLAZ_DONT_PULL`` and ``BLAZ_CHDIR_REL`` are reserved.
 
 Env var | Explanation
 ---|---
@@ -50,6 +50,7 @@ BLAZ_LOCK | It's the digest of the fullpath of the script and it's used to under
 BLAZ_VERSION | For debugging purpose, it's the blaz version inside the container
 BLAZ_SKIP | When you want to compose two blaz scripts but you don't want to start two different containers
 BLAZ_CHDIR_REL | When the script has to access to files that are not under his directory but somewhere else. It allows mount a volume that is different from the directory of the current script using a relative path like ``../..``
+BLAZ_DONT_PULL | It's used in development mode
 DOCKER_OPTIONS | To override ``--rm --privileged --net=host``
 DOCKER_EXE | To specify a the docker executable when you have multiple versions
 DOCKER_SOCK | To override the ``var/run/docker.sock``
@@ -63,6 +64,8 @@ A blaz script can invoke another blaz script. A new docker container will be use
 * blaz.run
 * blaz.log
 * blaz.cd
+* blaz.before
+* blaz.after
 
 ## Pull
 Blaz always pulls the docker image. This allows you to use latest in your jenkins script and improve your image without making new commits to your project.
@@ -97,7 +100,12 @@ def task(blaz):
 
 if __name__ == "__main__":
     # the task function will be invoke in a fresh container
-    Blaz().invoke(task)
+    b = Blaz()
+    if b.before():
+        b.log("before starting docker run")
+    if b.after():
+        b.log("after starting docker run")
+    b.invoke(task)
 ```
 
 ## Publish
@@ -106,8 +114,8 @@ if __name__ == "__main__":
 rm -rf dist
 python setup.py sdist
 twine upload dist/*
-docker build --no-cache -t amiorin/alpine-blaz .
-docker push amiorin/alpine-blaz
+docker build -t amiorin/alpine-blaz:latest .
+docker push amiorin/alpine-blaz:latest
 docker tag ...
 docker push ...
 ```
