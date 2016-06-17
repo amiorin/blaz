@@ -124,6 +124,7 @@ docker push ...
 * Install pyenv
 
 ```
-pip install -e .
+pip install -r dev-requirements.txt
+npm install nodemon
 nodemon -e py -x nosetests --with-specplugin blaz_test.py
 ```
