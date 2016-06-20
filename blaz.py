@@ -104,7 +104,7 @@ class Blaz(object):
 
     def log(self, msg='', fg='yellow'):
         sys.stdout.flush()
-        sys.stderr.write(bold(msg + '\n', fg=fg))
+        sys.stderr.write(bold(str(msg) + '\n', fg=fg))
         sys.stderr.flush()
 
     def run(self, cmd, fg='green'):
