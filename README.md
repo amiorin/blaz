@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/blaz.svg)](https://badge.fury.io/py/blaz)
+
 ## Intro
 Blaz runs your scripts inside docker.
 
