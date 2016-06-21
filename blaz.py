@@ -107,12 +107,13 @@ class Blaz(object):
         sys.stderr.write(bold(str(msg) + '\n', fg=fg))
         sys.stderr.flush()
 
-    def run(self, cmd, fg='green'):
-        while True:
-            prev = cmd
-            cmd = cmd.format(self)
-            if prev == cmd:
-                break
+    def run(self, cmd, fg='green', format=True):
+        if format:
+            while True:
+                prev = cmd
+                cmd = cmd.format(self)
+                if prev == cmd:
+                    break
         self.log(cmd, fg=fg)
         check_call(cmd, shell=True)
         sys.stdout.flush()
