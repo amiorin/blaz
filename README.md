@@ -39,6 +39,9 @@ BLAZ_IMAGE=amiorin/alpine-blaz
 BLAZ_CHDIR_REL=../..
 # to skip the docker run step
 BLAZ_SKIP=1
+# uid and gid for fixing ownership problems
+BLAZ_UID
+BLAZ_GID
 ```
 
 All environment variables like ``BLAZ_*`` and ``_BLAZ_*`` are forwarded to the next container. The former are printed the latter are not (useful for secrets like AWS credentials inside jenkins).
@@ -56,7 +59,6 @@ BLAZ_DONT_PULL | It's used in development mode
 DOCKER_OPTIONS | To override ``--rm --privileged --net=host``
 DOCKER_EXE | To specify a the docker executable when you have multiple versions
 DOCKER_SOCK | To override the ``var/run/docker.sock``
-DOCKER_IMMUTABLE | Blaz does ``docker pull``, but Zalando has a private docker registry that is immutable. If you define this environment variable, Blaz will try to download the next version until it doesn't find a new version (0.0.1 -> 0.0.2 ...)
 
 ## Nested scripts
 A blaz script can invoke another blaz script. A new docker container will be used for the nested script, unless you define the environment variable ``BLAZ_SKIP``.
@@ -70,7 +72,7 @@ A blaz script can invoke another blaz script. A new docker container will be use
 * blaz.after
 
 ## Pull
-Blaz always pulls the docker image. This allows you to use latest in your jenkins script and improve your image without making new commits to your project.
+Blaz always pulls the docker image. This allows you to use latest in your jenkins script and improve your image without making new commits to your project. Use ``BLAZ_DONT_PULL`` to disable this behaviour.
 
 ## Use cases
 * jenkins

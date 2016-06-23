@@ -1,19 +1,12 @@
 from distutils.spawn import find_executable
-from os import environ, chdir, getenv
+from os import environ, chdir, getenv, getuid, getgid
 from os.path import abspath, basename, dirname, join as join_dir
 from subprocess import check_call, CalledProcessError
 from sys import argv
 from colors import bold
 from hashlib import md5
 from version import __version__
-import semantic_version
 import sys
-
-try:
-    from subprocess import DEVNULL  # py3k
-except ImportError:
-    import os
-    DEVNULL = open(os.devnull, 'wb')
 
 
 class Blaz(object):
@@ -37,29 +30,10 @@ class Blaz(object):
             self.mount_dir = self.dir
         self._create_lock()
 
-    def _find_latest_docker_image(self):
-        image = self.image
-        while True:
-            prev = image
-            image = image.format(self)
-            if prev == image:
-                break
-        self.image = self._do_find_latest_docker_image(image)
-
-    def _do_find_latest_docker_image(self, image):
-        next_image = self._next_docker_image_version(image)
-        try:
-            check_call(['docker', 'pull', next_image], stdout=DEVNULL, stderr=DEVNULL)
-        except CalledProcessError:
-            return image
-        else:
-            return self._do_find_latest_docker_image(next_image)
-
-    def _next_docker_image_version(self, image):
-        xs = image.split(':')
-        assert len(xs) == 2, "Your docker image name ({}) doesn't contain the tag".format(image)
-        xs[-1] = str(semantic_version.Version(xs[-1]).next_patch())
-        return ':'.join(xs)
+    def _find_uid_and_guid(self):
+        if 'BLAZ_UID' not in environ:
+            environ['BLAZ_UID'] = str(getuid())
+            environ['BLAZ_GID'] = str(getgid())
 
     def _find_docker_exe(self):
         if 'DOCKER_EXE' not in environ:
@@ -88,15 +62,10 @@ class Blaz(object):
         if self._fresh() or 'BLAZ_SKIP' in environ:
             if 'BLAZ_SKIP' in environ:
                 del environ['BLAZ_SKIP']
-            if 'DOCKER_IMMUTABLE' in environ:
-                del environ['DOCKER_IMMUTABLE']
             main(self)
         else:
-            if 'DOCKER_IMMUTABLE' not in environ:
-                if 'BLAZ_DONT_PULL' not in environ:
-                    check_call(['docker', 'pull', "{0.image}".format(self)], stdout=DEVNULL, stderr=DEVNULL)
-            else:
-                self._find_latest_docker_image()
+            if 'BLAZ_DONT_PULL' not in environ:
+                check_call("docker pull {0.image}".format(self), shell=True)
             self._docker_run()
 
     def cd(self, subdir="."):
@@ -120,6 +89,7 @@ class Blaz(object):
         sys.stderr.flush()
 
     def _forward_blaz_env_vars(self):
+        self._find_uid_and_guid()
         result = []
         for k in environ.keys():
             if k.find('BLAZ_') == 0 and k != 'BLAZ_LOCK' and k != 'BLAZ_VERSION' and k != 'BLAZ_CHDIR_REL' and k != 'BLAZ_SKIP':

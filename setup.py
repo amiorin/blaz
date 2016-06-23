@@ -12,7 +12,6 @@ setup(name='blaz',
       license='MIT',
       py_modules=['blaz', 'version'],
       install_requires=[
-        'ansicolors',
-        'semantic_version'
+        'ansicolors'
         ],
       )
