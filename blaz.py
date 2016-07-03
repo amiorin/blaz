@@ -7,6 +7,7 @@ from colors import bold
 from hashlib import md5
 from version import __version__
 import sys
+import re
 
 
 class Blaz(object):
@@ -94,12 +95,18 @@ class Blaz(object):
         for k in environ.keys():
             if k.find('BLAZ_') == 0 and k != 'BLAZ_LOCK' and k != 'BLAZ_VERSION' and k != 'BLAZ_CHDIR_REL' and k != 'BLAZ_SKIP':
                 result.append('''
-  --env={}={}
+  --env={}="{}"
 '''.format(k, environ[k]))
             elif k.find('_BLAZ_') == 0:
                 result.append('''
   --env={0}=${0}
 '''.format(k))
+        if 'BLAZ_VARS' in environ:
+            env_vars = re.split('\W+', environ['BLAZ_VARS'])
+            for k in env_vars:
+                result.append('''
+  --env={}={}
+'''.format(k, environ[k]))
         return ''.join(result)
 
     def _docker_run(self):

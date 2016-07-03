@@ -25,6 +25,9 @@ if __name__ == "__main__":
     environ['BLAZ_IMAGE'] = 'amiorin/alpine-blaz:latest'
     environ['BLAZ_CHDIR_REL'] = '..'
     environ['BLAZ_DONT_PULL'] = ''
+    environ['BLAZ_VARS'] = 'JENKINS_BUILD GIT_COMMIT'
+    environ['JENKINS_BUILD'] = '1'
+    environ['GIT_COMMIT'] = '2'
     b = Blaz()
     if b.before():
         b.log("before")
