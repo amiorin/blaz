@@ -85,9 +85,14 @@ class Blaz(object):
                 if prev == cmd:
                     break
         self.log(cmd, fg=fg)
-        check_call(cmd, shell=True)
-        sys.stdout.flush()
-        sys.stderr.flush()
+        try:
+            check_call(cmd, shell=True)
+        except CalledProcessError as ex:
+            self.log('\n' + str(ex), fg='red')
+            sys.exit(1)
+        finally:
+            sys.stdout.flush()
+            sys.stderr.flush()
 
     def _forward_blaz_env_vars(self):
         self._find_uid_and_guid()
@@ -97,16 +102,16 @@ class Blaz(object):
                 result.append('''
   --env={}="{}"
 '''.format(k, environ[k]))
+                if k.find('BLAZ_VARS') == 0:
+                    env_vars = re.split('\W+', environ[k])
+                    for j in env_vars:
+                        result.append('''
+  --env={}="{}"
+'''.format(j, environ[j]))
             elif k.find('_BLAZ_') == 0:
                 result.append('''
-  --env={0}=${0}
+  --env={0}="${0}"
 '''.format(k))
-        if 'BLAZ_VARS' in environ:
-            env_vars = re.split('\W+', environ['BLAZ_VARS'])
-            for k in env_vars:
-                result.append('''
-  --env={}={}
-'''.format(k, environ[k]))
         return ''.join(result)
 
     def _docker_run(self):
