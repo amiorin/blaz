@@ -67,12 +67,15 @@ DOCKER_SOCK | To override the ``var/run/docker.sock``
 A blaz script can invoke another blaz script. A new docker container will be used for the nested script, unless you define the environment variable ``BLAZ_SKIP``.
 
 ## Blaz api
-* blaz.invoke
-* blaz.run
-* blaz.log
-* blaz.cd
-* blaz.before
-* blaz.after
+```python
+blaz.invoke(func)
+blaz.run(format=True)
+blaz.log()
+blaz.cd()
+blaz.cd('relpath')
+blaz.before()
+blaz.after()
+```
 
 ## Pull
 Blaz always pulls the docker image. This allows you to use latest in your jenkins script and improve your image without making new commits to your project. Use ``BLAZ_DONT_PULL`` to disable this behaviour.
