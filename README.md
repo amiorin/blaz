@@ -125,7 +125,7 @@ if __name__ == "__main__":
 rm -rf dist
 python setup.py sdist
 twine upload dist/*
-docker build -t amiorin/alpine-blaz:latest .
+docker build --no-cache -t amiorin/alpine-blaz:latest .
 docker push amiorin/alpine-blaz:latest
 docker tag ...
 docker push ...
