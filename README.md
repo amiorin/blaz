@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
 ## entrypoint trick
 A [wrapper script](http://blog.labianchin.me/2016/02/15/docker-tips-and-tricks) can fix the user permissions
-and check the version of Blaz. [Dockerfile.jessie](https://github.com/amiorin/blaz/blob/master/Dockerfile.jessie) is just an example in python.
+and check the version of Blaz. [Dockerfile.jessie](https://github.com/amiorin/blaz/blob/master/Dockerfile.jessie) contains an [example](https://github.com/amiorin/blaz/blob/master/entrypoint.py) in python.
 
 ## Publish
 
