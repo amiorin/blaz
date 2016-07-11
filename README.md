@@ -7,6 +7,7 @@ Blaz runs your scripts inside docker.
 With blaz you can create docker images with all the dependencies of your script like python3, ansible, aws cli, terraform, puppet, chef, make, go...
 
 ## Requirements
+* linux or
 * docker-machine (dinghy works out of the box) or a **static** version of docker
 * **nfs** (better) or vboxsf (you could have stale scripts) in OSX
 * a **docker image** with python2/3 and blaz
