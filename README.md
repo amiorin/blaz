@@ -119,6 +119,10 @@ if __name__ == "__main__":
     b.invoke(task)
 ```
 
+## entrypoint trick
+A [wrapper script](http://blog.labianchin.me/2016/02/15/docker-tips-and-tricks) can fix the user permissions
+and check the version of Blaz. [Dockerfile.jessie](https://github.com/amiorin/blaz/blob/master/Dockerfile.jessie) is just an example in python.
+
 ## Publish
 
 ```
