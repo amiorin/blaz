@@ -23,7 +23,7 @@ cd blaz
 pip3 install blaz
 ./run
 ```
-[![asciicast](https://asciinema.org/a/7mnodah0so7wd7a8hrwn25xir.png)](https://asciinema.org/a/7mnodah0so7wd7a8hrwn25xir)
+![screenshot](https://raw.githubusercontent.com/amiorin/blaz/master/blaz.png)
 
 ## Environment variables
 These are the defaults that you can override
