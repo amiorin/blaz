@@ -129,7 +129,7 @@ class Blaz(object):
   --volume={0.docker_exe}:{0.docker_exe}
   --volume={0.docker_sock}:{0.docker_sock}
   {0.image}
-  {0.dir}/{0.script} {0.argv}
+  "{0.dir}/{0.script}" {0.argv}
 '''
         cmd = '\n    '.join([x.strip() + ' \\' for x in cmd.split('\n') if
                              x.strip() is not ''])[:-2]
