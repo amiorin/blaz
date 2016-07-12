@@ -16,7 +16,7 @@ Plese upgrade Blaz:
 
 def main():
     if "BLAZ_VERSION" in environ:
-        require_version = semantic_version.Version("0.0.23")
+        require_version = semantic_version.Version("0.0.24")
         current_version = semantic_version.Version(environ["BLAZ_VERSION"])
         if require_version > current_version:
             print(msg.format(current_version, require_version))
