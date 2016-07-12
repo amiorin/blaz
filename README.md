@@ -45,11 +45,11 @@ BLAZ_SKIP=1
 BLAZ_UID
 BLAZ_GID
 # forward this custom env variables
-BLAZ_VARS_AWS="AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN"
+_BLAZ_VARS_AWS="AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN"
 BLAZ_VARS_JENKINS="BUILD_NUMBER GIT_COMMIT"
 ```
 
-All environment variables like ``BLAZ_*`` and ``_BLAZ_*`` are forwarded to the next container. The former are printed the latter are not (useful for secrets like AWS credentials inside jenkins). The strings inside the environment variable ``BLAZ_VARS`` are forwarded as environment variables
+All environment variables like ``BLAZ_*`` and ``_BLAZ_*`` are forwarded to the next container. The former are printed the latter are not (useful for secrets like AWS credentials inside jenkins). The strings inside the environment variable ``BLAZ_VARS`` and ``_BLAZ_VARS`` are forwarded as environment variables
 
 ## Reserved env variables
 ``BLAZ_LOCK``, ``BLAZ_VERSION``, ``BLAZ_SKIP``, ``BLAZ_DONT_PULL`` and ``BLAZ_CHDIR_REL`` are reserved.
@@ -61,7 +61,7 @@ BLAZ_VERSION | For debugging purpose, it's the blaz version inside the container
 BLAZ_SKIP | When you want to compose two blaz scripts but you don't want to start two different containers
 BLAZ_CHDIR_REL | When the script has to access to files that are not under his directory but somewhere else. It allows mount a volume that is different from the directory of the current script using a relative path like ``../..``
 BLAZ_DONT_PULL | It's used in development mode
-BLAZ_VARS | Every env var starting with ``BLAZ_VARS`` like ``BLAZ_VARS_AWS`` or ``BLAZ_VARS_JENKINS`` contains a list of custom environment variables to be forwarded
+BLAZ_VARS | Every env var starting with ``BLAZ_VARS`` like ``_BLAZ_VARS_AWS`` or ``BLAZ_VARS_JENKINS`` contains a list of custom environment variables to be forwarded
 DOCKER_OPTIONS | To override ``--rm --privileged --net=host``
 DOCKER_EXE | To specify a the docker executable when you have multiple versions
 DOCKER_SOCK | To override the ``var/run/docker.sock``

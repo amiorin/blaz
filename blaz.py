@@ -25,10 +25,11 @@ class Blaz(object):
             'version': __version__
         })
         chdir(self.dir)
+        self.mount_dir = "/".join(self.dir.split("/")[0:2])
         if 'BLAZ_CHDIR_REL' in environ:
-            self.mount_dir = abspath(join_dir(self.dir, environ['BLAZ_CHDIR_REL']))
+            self.project_dir = abspath(join_dir(self.dir, environ['BLAZ_CHDIR_REL']))
         else:
-            self.mount_dir = self.dir
+            self.project_dir = self.dir
         self._create_lock()
 
     def _find_uid_and_guid(self):
@@ -70,7 +71,7 @@ class Blaz(object):
             self._docker_run()
 
     def cd(self, subdir="."):
-        chdir(join_dir(self.mount_dir, subdir))
+        chdir(join_dir(self.project_dir, subdir))
 
     def log(self, msg='', fg='yellow'):
         sys.stdout.flush()
@@ -112,6 +113,12 @@ class Blaz(object):
                 result.append('''
   --env={0}="${0}"
 '''.format(k))
+                if k.find('_BLAZ_VARS') == 0:
+                    env_vars = re.split('\W+', environ[k])
+                    for j in env_vars:
+                        result.append('''
+  --env={0}="${0}"
+'''.format(j))
         return ''.join(result)
 
     def _docker_run(self):
