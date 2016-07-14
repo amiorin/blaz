@@ -25,7 +25,7 @@ class Blaz(object):
             'version': __version__
         })
         chdir(self.dir)
-        self.mount_dir = "/".join(self.dir.split("/")[0:2])
+        self.mount_dir = "/".join(self.dir.split("/")[0:3])
         if 'BLAZ_CHDIR_REL' in environ:
             self.project_dir = abspath(join_dir(self.dir, environ['BLAZ_CHDIR_REL']))
         else:
